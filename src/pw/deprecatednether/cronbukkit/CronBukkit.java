@@ -61,9 +61,13 @@ public class CronBukkit extends JavaPlugin {
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
+
+        // Initialize the cron daemon
+        crontask = new CronTask().runTaskTimer(this, 0, 1200); // todo add some sort of a handler so tasks still get run if the server is lagging (if the tps dropped to 10, this will get called every 2 minutes instead of 1!)
     }
 
     public void onDisable() {
+        crontask.cancel();
         try {
             BufferedReader br = new BufferedReader(new FileReader(cronFile));
             String ln;
