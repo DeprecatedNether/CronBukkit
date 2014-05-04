@@ -106,4 +106,15 @@ public class Cron {
             return null;
         }
     }
+
+    /**
+     * Gets the command to be run.
+     * @return The command.
+     */
+    public String getCommand() {
+        if (at) {
+            return split[1];
+        }
+        return split[5];
+    }
 }
