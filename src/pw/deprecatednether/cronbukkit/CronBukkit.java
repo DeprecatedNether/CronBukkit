@@ -21,12 +21,27 @@ package pw.deprecatednether.cronbukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
+import java.io.File;
+import java.io.IOException;
+
 public class CronBukkit extends JavaPlugin {
 
     private BukkitTask crontask;
+    public static long lastrun;
+    public static File cronFile;
 
     public void onEnable() {
-
+        cronFile = new File(getDataFolder(), "crontab");
+        if (!cronFile.exists()) {
+            getDataFolder().mkdirs();
+            try {
+                cronFile.createNewFile();
+                getLogger().info("Created empty crontab file.");
+            } catch (IOException ioe) {
+                getLogger().severe("An error occurred while creating an empty crontab file.");
+                ioe.printStackTrace();
+            }
+        }
     }
 
     public void onDisable() {
