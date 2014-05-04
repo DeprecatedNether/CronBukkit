@@ -21,7 +21,9 @@ package pw.deprecatednether.cronbukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 
 public class CronBukkit extends JavaPlugin {
@@ -41,6 +43,23 @@ public class CronBukkit extends JavaPlugin {
                 getLogger().severe("An error occurred while creating an empty crontab file.");
                 ioe.printStackTrace();
             }
+        }
+
+        // Run the @reboot crons
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(cronFile));
+            String ln;
+            while ((ln = br.readLine()) != null) { // http://stackoverflow.com/a/5868528/3551129 <3
+                Cron cron = new Cron(ln);
+                String predefined = cron.getPredefined();
+                if (predefined != null) {
+                    if (predefined.equals("@reboot")) {
+                        getServer().dispatchCommand(getServer().getConsoleSender(), cron.getCommand());
+                    }
+                }
+            }
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
         }
     }
 
