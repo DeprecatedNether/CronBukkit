@@ -1,0 +1,5 @@
+name: CronBukkit
+version: 0.1
+main: pw.deprecatednether.cronbukkit.CronBukkit
+author: DeprecatedNether
+description: CronBukkit implements a scheduler similar to cron on Unix-like systems.
