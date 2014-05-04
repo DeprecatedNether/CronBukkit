@@ -25,22 +25,25 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.logging.Logger;
 
 public class CronBukkit extends JavaPlugin {
 
+    public static Logger log;
     private BukkitTask crontask;
     public static long lastrun;
     public static File cronFile;
 
     public void onEnable() {
+        log = getLogger();
         cronFile = new File(getDataFolder(), "crontab");
         if (!cronFile.exists()) {
             getDataFolder().mkdirs();
             try {
                 cronFile.createNewFile();
-                getLogger().info("Created empty crontab file.");
+                log.info("Created empty crontab file.");
             } catch (IOException ioe) {
-                getLogger().severe("An error occurred while creating an empty crontab file.");
+                log.severe("An error occurred while creating an empty crontab file.");
                 ioe.printStackTrace();
             }
         }
