@@ -64,6 +64,20 @@ public class CronBukkit extends JavaPlugin {
     }
 
     public void onDisable() {
-
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(cronFile));
+            String ln;
+            while ((ln = br.readLine()) != null) {
+                Cron cron = new Cron(ln);
+                String predefined = cron.getPredefined();
+                if (predefined != null) {
+                    if (predefined.equals("@shutdown")) {
+                        getServer().dispatchCommand(getServer().getConsoleSender(), cron.getCommand());
+                    }
+                }
+            }
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
     }
 }
