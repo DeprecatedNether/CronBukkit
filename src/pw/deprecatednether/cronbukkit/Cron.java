@@ -28,8 +28,10 @@ public class Cron {
         this.line = cronEntry;
         if (line.startsWith("@")) {
             at = true;
+            split = this.line.split(" ", 2);
+        } else {
+            split = this.line.split(" ", 6);
         }
-        split = this.line.split(" ", 6);
     }
 
     /**
@@ -45,10 +47,7 @@ public class Cron {
      * @return The entry for minute (0-59, special character) or 61 if the cron is "special" (such as "@reboot")
      */
     public String getMinute() {
-        if (at) {
-            return "61"; // Never run
-        }
-        return split[0];
+        if (at) return "61"; return split[0];
     }
 
     /**
@@ -56,10 +55,7 @@ public class Cron {
      * @return The entry for hour (0-23, special character) or 25 if the cron is "special" (such as "@reboot")
      */
     public String getHour() {
-        if (at) {
-            return "25"; // Again, never run
-        }
-        return split[1];
+        if (at) return "25"; return split[1];
     }
 
     /**
@@ -67,10 +63,7 @@ public class Cron {
      * @return The entry for hour (1-31, special character) or 32 if the cron is "special" (such as "@reboot")
      */
     public String getDoM() {
-        if (at) {
-            return "32"; // Again
-        }
-        return split[2];
+        if (at) return "32"; return split[2];
     }
 
     /**
@@ -78,10 +71,7 @@ public class Cron {
      * @return The entry for month (1-12, special character) or 13 if the cron is "special" (such as "@reboot")
      */
     public String getMonth() {
-        if (at) {
-            return "13"; // Yet again
-        }
-        return split[3];
+        if (at) return "13"; return split[3];
     }
 
     /**
@@ -89,10 +79,7 @@ public class Cron {
      * @return The entry for day of week (0-7, special character) or 8 if the cron is "special" (such as "@reboot")
      */
     public String getDoW() {
-        if (at) {
-            return "8"; // And again
-        }
-        return split[4];
+        if (at) return "8"; return split[4];
     }
 
     /**
@@ -100,11 +87,7 @@ public class Cron {
      * @return The predefined definition (with the preceding @) or null if the entry doesn't use a predefined definition.
      */
     public String getPredefined() {
-        if (at) {
-            return split[0];
-        } else {
-            return null;
-        }
+        if (at) return split[0]; return null;
     }
 
     /**
@@ -112,9 +95,6 @@ public class Cron {
      * @return The command.
      */
     public String getCommand() {
-        if (at) {
-            return split[1];
-        }
-        return split[5];
+        if (at) return split[1]; return split[5];
     }
 }
